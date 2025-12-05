@@ -1,61 +1,156 @@
-# MIPS — ALU Processor
+# **MIPS20 – Pipelined ALU Processor (Verilog HDL)**
 
-A compact HDL implementation of a 5 stage pipelined MIPS-styled processor focused on the ALU and core datapath. This project follows the spirit and structure of the MIPS20 reference material — implementing a clean, teachable subset of the MIPS ISA and the minimal control and datapath necessary to demonstrate instruction execution.
+This repository contains the complete Verilog HDL implementation of a **custom 5-stage pipelined MIPS processor**, designed with a **20×32 register file** instead of the standard MIPS 32×32 architecture.
+The project demonstrates core concepts of processor design, pipelining, hazard management, datapath construction, and HDL-based digital system implementation.
 
-## Overview
-This repository implements:
-- A simple instruction fetch/decode/execute datapath
-- Register file (20 x 32-bit registers)
-- ALU with common arithmetic and logical operations
-- Instruction and data memories (as separate memories for clarity)
-- Basic control unit to support a small but useful instruction subset
+---
 
-The design is intended for learning, simulation, and basic synthesis on FPGA tools.
+## **🚀 Features**
 
-## Supported instructions (subset)
-Typical instructions implemented (may vary by source file):
-- R-type: add, sub, and, or, slt
-- I-type: addi, lw, sw, beq
-- J-type: j
+* 5-stage pipelined architecture
 
-These cover arithmetic, memory access, and simple control flow so you can exercise the ALU, register file, and memory interfaces.
+  * IF → ID → EX → MEM → WB
+* Custom **20×32 register file**
+* Fully synthesizable Verilog modules
+* ALU supporting essential arithmetic & logical operations
+* Pipeline latches: IF/ID, ID/EX, EX/MEM, MEM/WB
+* Instruction memory & data memory modules
+* Modular and scalable codebase
+* Testbenches with simulation waveforms
+* Designed for educational and FPGA experimentation
 
-## Architecture highlights
-- Single-cycle datapath: each instruction completes in one clock cycle (simple and easy to follow).
-- Clean separation between instruction memory, data memory, register file, ALU, and control logic.
-- Signals and modules named to mirror the canonical MIPS datapath for readability and teaching.
+---
 
-## Files (high level)
-- src/            — HDL source modules (ALU, register file, control, memories, top-level)
-- tb/             — Testbenches to simulate instruction sequences
-- sims/           — Example instruction binaries / test programs
-- docs/           — Reference notes and any diagrams (if present)
+## **📁 Project Structure**
 
-(Adapt paths to the repository layout — these are typical locations; see the repo for exact filenames.)
+```
+│── ALU.v
+│── RegisterFile_20x32.v
+│── ControlUnit.v
+│── InstructionMemory.v
+│── DataMemory.v
+│── Pipeline_IF_ID.v
+│── Pipeline_ID_EX.v
+│── Pipeline_EX_MEM.v
+│── Pipeline_MEM_WB.v
+│── Datapath.v
+│── MIPS20_Top.v
+│── Testbench.v
+└── README.md
+```
 
-## Simulation / Quick start
-To simulate with Icarus Verilog (example):
-1. Ensure you have iverilog and vvp installed.
-2. From the repo root:
-   - iverilog -o simv tb/top_tb.v src/*.v
-   - vvp simv
-3. Inspect waveform (if generated) with GTKWave:
-   - gtkwave dump.vcd
+---
 
-For vendor tools (Vivado/Quartus), create a new project and add the source files; set the top module and follow the vendor flow for synthesis or implementation.
+## **🧠 Architecture Overview**
 
-## Testing
-- Testbenches provide examples for ALU ops, register-file reads/writes, loads/stores, and control flow.
-- Add new tests in tb/ to exercise additional instruction sequences or edge cases.
+The processor follows a classical **RISC/MIPS design philosophy** with simplified instruction flow and high-speed execution through pipelining.
+Key architectural components include:
 
-## Contributing
-Contributions, bug reports, and suggestions are welcome. If you add instructions, please:
-- Update the supported-instruction list
-- Add testbenches that validate correct behavior
-- Keep module interfaces and naming consistent for clarity
+* **Program Counter (PC)**
+* **Instruction Memory**
+* **20×32 Register File**
+* **Sign Extend Unit**
+* **ALU**
+* **Data Memory**
+* **MUX-based control datapath**
+* **Pipeline registers for stage separation**
 
-## License
-Specify your license here (e.g., MIT, BSD). If none is present, add a LICENSE file before reuse.
+---
 
-## Contact
-For questions or discussion, open an issue in this repository or contact the maintainer.
+## **⚙️ Implemented Instructions**
+
+The processor supports a subset of essential MIPS instructions used for ALU operations, memory operations, and branching.
+
+### **Arithmetic Operations**
+
+* ADD, SUB, MUL, DIV, EXP
+
+### **Logical Operaations**
+
+* AND, OR, XOR
+
+### **Comparision Operations**
+
+* SLT, SGT
+
+### **Immediate Operations**
+
+* ADDI, SUBI
+
+### **Memory Operations**
+
+* LW, SW
+
+### **Branch Operations**
+
+* BEQ, BNE
+
+---
+
+## **✨ Pipeline Features**
+
+* Instruction overlap using 5-stage pipeline
+* Pipeline registers store intermediate results
+* Stable two-phase clock (clk1 & clk2) for hazard-free operation
+* Basic hazard handling (manual NOP insertion)
+
+---
+
+## **📈 Future Enhancements**
+
+* Automatic hazard detection & forwarding unit
+* Support for advanced instructions
+* Cache memory integration
+* Pipelined multiplier unit
+* FPGA deployment & real-time testing
+
+---
+
+## **🧪 Simulation**
+
+All modules are tested using Verilog testbenches.
+Simulation waveforms verify:
+
+* Correct instruction execution
+* Pipeline timing and behavior
+* Register file updates
+* ALU output correctness
+
+---
+
+## **🔧 Tools Used**
+
+* **Verilog HDL**
+* **ModelSim / Vivado Simulator**
+* **Xilinx Vivado / Intel Quartus (optional)**
+
+---
+
+## **📜 How to Run**
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/yourusername/MIPS20-Processor.git
+   ```
+2. Open the project in your Verilog simulator (ModelSim/Vivado).
+3. Compile all `.v` files.
+4. Run **Testbench.v** to view the pipeline execution and waveforms.
+
+---
+
+## **📄 License**
+
+This project is released under the **MIT License**.
+Feel free to use, modify, or extend the design for academic or research purposes.
+
+---
+
+## **👨‍💻 Author**
+
+**Chaitanya Mucherla**
+
+**B.Tech** – Electronics and Communication Engineering
+
+**Project** – *Pipelined MIPS20 – ALU Processor Design*
+
